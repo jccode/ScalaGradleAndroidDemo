@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jp.leafytree.android-scala'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
 
 android {
     compileSdkVersion 26
@@ -28,7 +36,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile "org.scala-lang:scala-library:2.11.8"
-    compile "org.scaloid:scaloid_2.11:4.1"
+    compile 'org.scala-lang:scala-library:2.11.8'
+    compile 'org.scaloid:scaloid_2.11:4.1'
+    compile 'com.github.pocorall.scaloid:scaloid-support-v4_2.11:4.1'
+    compile 'com.android.support:support-v4:26.+'
+    compile 'com.android.support:recyclerview-v7:26.+'
     testCompile 'junit:junit:4.12'
 }

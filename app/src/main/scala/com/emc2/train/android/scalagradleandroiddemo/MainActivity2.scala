@@ -3,11 +3,13 @@ package com.emc2.train.android.scalagradleandroiddemo
 import android.os.Bundle
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.design.widget.{FloatingActionButton, NavigationView, Snackbar}
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.{ActionBarDrawerToggle, AppCompatActivity}
 import android.support.v7.widget.Toolbar
 import android.view.{Menu, MenuItem, View}
+import com.emc2.train.android.scalagradleandroiddemo.ui.{DemoEntryActivity, DemoEntryFragment, IndexFragment}
 import org.scaloid.common._
 
 /**
@@ -33,6 +35,10 @@ class MainActivity2 extends AppCompatActivity with SActivity with OnNavigationIt
     toggle.syncState()
 
     find[NavigationView](R.id.nav_view).setNavigationItemSelectedListener(this)
+
+    if (savedInstanceState == null) {
+      navigateToFragment(getTitle, new IndexFragment)
+    }
   }
 
   override def onBackPressed(): Unit = {
@@ -60,8 +66,8 @@ class MainActivity2 extends AppCompatActivity with SActivity with OnNavigationIt
     item.getItemId match {
       case R.id.nav_camera =>
       case R.id.nav_gallery =>
-      case R.id.nav_slideshow =>
-      case R.id.nav_manage =>
+      case R.id.nav_slideshow => navigateToFragment("slideshow", new DemoEntryFragment)
+      case R.id.nav_manage => startActivity[DemoEntryActivity]
       case R.id.nav_share =>
       case R.id.nav_send =>
     }
@@ -70,4 +76,11 @@ class MainActivity2 extends AppCompatActivity with SActivity with OnNavigationIt
     drawer.closeDrawer(GravityCompat.START)
     true
   }
+
+  private def navigateToFragment(title: CharSequence, fragment: Fragment): Unit = {
+//    setTitle(title)
+    getSupportFragmentManager.beginTransaction.replace(R.id.main_content, fragment).addToBackStack(null).commit
+  }
+
+  override def setTitle(title: CharSequence): Unit = getSupportActionBar.setTitle(title)
 }
