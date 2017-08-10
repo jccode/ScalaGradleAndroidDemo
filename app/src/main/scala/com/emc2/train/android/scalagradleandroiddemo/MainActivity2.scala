@@ -3,7 +3,7 @@ package com.emc2.train.android.scalagradleandroiddemo
 import android.os.Bundle
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.design.widget.{FloatingActionButton, NavigationView, Snackbar}
-import android.support.v4.app.Fragment
+import android.support.v4.app.{Fragment, FragmentManager, FragmentTransaction}
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.{ActionBarDrawerToggle, AppCompatActivity}
@@ -37,7 +37,7 @@ class MainActivity2 extends AppCompatActivity with SActivity with OnNavigationIt
     find[NavigationView](R.id.nav_view).setNavigationItemSelectedListener(this)
 
     if (savedInstanceState == null) {
-      navigateToFragment(getTitle, new IndexFragment)
+      navigateToFragment(getTitle, new IndexFragment, false)
     }
   }
 
@@ -77,9 +77,12 @@ class MainActivity2 extends AppCompatActivity with SActivity with OnNavigationIt
     true
   }
 
-  private def navigateToFragment(title: CharSequence, fragment: Fragment): Unit = {
-//    setTitle(title)
-    getSupportFragmentManager.beginTransaction.replace(R.id.main_content, fragment).addToBackStack(null).commit
+  private def navigateToFragment(title: CharSequence, fragment: Fragment, addToStack: Boolean = true): Unit = {
+    val transaction: FragmentTransaction = getSupportFragmentManager.beginTransaction.replace(R.id.main_content, fragment)
+    if (addToStack) {
+      transaction.addToBackStack(null)
+    }
+    transaction.commit
   }
 
   override def setTitle(title: CharSequence): Unit = getSupportActionBar.setTitle(title)
