@@ -3,7 +3,7 @@ package com.emc2.train.android.scalagradleandroiddemo
 import android.os.Bundle
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.design.widget.{FloatingActionButton, NavigationView, Snackbar}
-import android.support.v4.app.{Fragment, FragmentManager, FragmentTransaction}
+import android.support.v4.app.{Fragment, FragmentTransaction}
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.{ActionBarDrawerToggle, AppCompatActivity}
