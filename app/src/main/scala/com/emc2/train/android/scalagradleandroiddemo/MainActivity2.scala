@@ -9,7 +9,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.{ActionBarDrawerToggle, AppCompatActivity}
 import android.support.v7.widget.Toolbar
 import android.view.{Menu, MenuItem, View}
-import com.emc2.train.android.scalagradleandroiddemo.ui.{DemoEntryActivity, DemoEntryFragment, IndexFragment}
+import com.emc2.train.android.scalagradleandroiddemo.ui.{DemoActivity, DemoEntryFragment, IndexFragment}
 import org.scaloid.common._
 
 /**
@@ -66,8 +66,8 @@ class MainActivity2 extends AppCompatActivity with SActivity with OnNavigationIt
     item.getItemId match {
       case R.id.nav_camera =>
       case R.id.nav_gallery =>
-      case R.id.nav_slideshow => navigateToFragment("slideshow", new DemoEntryFragment)
-      case R.id.nav_manage => startActivity[DemoEntryActivity]
+      case R.id.nav_slideshow =>
+      case R.id.nav_manage => navigateToFragment("slideshow", new DemoEntryFragment)
       case R.id.nav_share =>
       case R.id.nav_send =>
     }

@@ -41,5 +41,6 @@ dependencies {
     compile 'com.github.pocorall.scaloid:scaloid-support-v4_2.11:4.1'
     compile 'com.android.support:support-v4:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'
+    compile 'com.android.volley:volley:1.0.0'
     testCompile 'junit:junit:4.12'
 }

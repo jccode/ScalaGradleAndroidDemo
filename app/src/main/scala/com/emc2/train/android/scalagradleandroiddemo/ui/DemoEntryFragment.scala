@@ -1,12 +1,14 @@
 package com.emc2.train.android.scalagradleandroiddemo.ui
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.{AdapterView, ArrayAdapter}
+import android.widget.{AdapterView, ArrayAdapter, Toast}
 import com.emc2.train.android.scalagradleandroiddemo.R
 import org.scaloid.support.v4.SListFragment
+import org.scaloid.common._
 
 /**
   * Demo entry fragment
@@ -15,11 +17,15 @@ import org.scaloid.support.v4.SListFragment
  */
 class DemoEntryFragment extends SListFragment with OnItemClickListener {
 
-  private val contents = Array("demo1", "demo2", "...")
+  private val contentActions = Map[String, ()=>Unit](
+    "Generated list fragment" -> { () => navigateToFragment(PosterFragment.newInstance(1)) },
+    "Goto another activity" -> { () => startActivity[DemoActivity] },
+    "Toast" -> { () => toast("some message") }
+  )
 
   override def onActivityCreated(savedInstanceState: Bundle): Unit = {
     super.onActivityCreated(savedInstanceState)
-    listAdapter = new ArrayAdapter[String](getActivity, android.R.layout.simple_list_item_activated_1, contents)
+    listAdapter = new ArrayAdapter[String](getActivity, android.R.layout.simple_list_item_activated_1, contentActions.keys.toArray)
     listView.setOnItemClickListener(this)
   }
 
@@ -29,10 +35,10 @@ class DemoEntryFragment extends SListFragment with OnItemClickListener {
   }
 
   override def onItemClick(adapterView: AdapterView[_], view: View, i: Int, l: Long): Unit = {
-    val fragment = i match {
-      case 0 => PosterFragment.newInstance(1)
-      case _ => PosterFragment.newInstance(2)
-    }
+    contentActions.values.toSeq(i).apply()
+  }
+
+  private def navigateToFragment(fragment: Fragment): Unit = {
     inTransaction {
       transition => {
         transition.replace(R.id.main_content, fragment)
