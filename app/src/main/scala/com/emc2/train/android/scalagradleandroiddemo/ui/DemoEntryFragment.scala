@@ -18,8 +18,8 @@ import org.scaloid.common._
 class DemoEntryFragment extends SListFragment with OnItemClickListener {
 
   private val contentActions = Map[String, ()=>Unit](
+    "Demo activity" -> { () => startActivity[DemoActivity] },
     "Generated list fragment" -> { () => navigateToFragment(PosterFragment.newInstance(1)) },
-    "Goto another activity" -> { () => startActivity[DemoActivity] },
     "Toast" -> { () => toast("some message") }
   )
 
