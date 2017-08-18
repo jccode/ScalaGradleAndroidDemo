@@ -5,7 +5,7 @@ import android.widget.ArrayAdapter
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.emc2.train.android.scalagradleandroiddemo.common.SHttpActivity
-import org.json.JSONArray
+import org.json.{JSONArray, JSONObject}
 import org.scaloid.common._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -27,7 +27,7 @@ class DemoActivity extends AppCompatActivity with SActivity with SHttpActivity {
       new SVerticalLayout {
         SButton("Ajax plain text", plainTextReq(resultText))
         SButton("Ajax get json", jsonGetReq(resultText))
-        SButton("Ajax post json", toast("post demo"))
+        SButton("Ajax post json", jsonPostReq(resultText))
       }.fw.here
 
       SListView().<<.fill.>>.adapter(new ArrayAdapter[String](ctx, android.R.layout.simple_list_item_1, contents)).onItemClick(
@@ -49,14 +49,26 @@ class DemoActivity extends AppCompatActivity with SActivity with SHttpActivity {
   }
 
   def jsonGetReq(text: STextView): Unit = {
-    val url: String = "http://jsonplaceholder.typicode.com/users"
+    val url: String = "http://10.0.0.66:3000/posts/"
     val future: Future[JSONArray] = get[JSONArray](url)
     future.map {
       result: JSONArray => runOnUiThread {
-        text.text = s"Response is: ${result.join("\n")}"
+        text.text = result.join("\n")
       }
     }
   }
+
+  def jsonPostReq(text: STextView): Unit = {
+    val url: String = "http://10.0.0.66:3000/posts/"
+    val param: JSONObject = new JSONObject("{\"title\": \"foo\", \"author\": \"bar\"}")
+    val future: Future[JSONObject] = post(url, Some(param))
+    future.map {
+      result: JSONObject => runOnUiThread {
+        text.text = result.toString(4)
+      }
+    }
+  }
+
 
 
   def reqTest(text: STextView): Unit = {
