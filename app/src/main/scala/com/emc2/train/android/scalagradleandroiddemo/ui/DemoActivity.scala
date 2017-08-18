@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.emc2.train.android.scalagradleandroiddemo.common.SHttpActivity
+import org.json.JSONArray
 import org.scaloid.common._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,7 +23,13 @@ class DemoActivity extends AppCompatActivity with SActivity with SHttpActivity {
   onCreate {
 
     contentView = new SVerticalLayout {
-      SButton("Button", reqTest(resultText))
+
+      new SVerticalLayout {
+        SButton("Ajax plain text", plainTextReq(resultText))
+        SButton("Ajax get json", jsonGetReq(resultText))
+        SButton("Ajax post json", toast("post demo"))
+      }.fw.here
+
       SListView().<<.fill.>>.adapter(new ArrayAdapter[String](ctx, android.R.layout.simple_list_item_1, contents)).onItemClick(
         (_: android.widget.AdapterView[_], _: android.view.View, p3: Int, _: Long) => toast(contents(p3))
       )
@@ -31,27 +38,30 @@ class DemoActivity extends AppCompatActivity with SActivity with SHttpActivity {
 
   }
 
+  def plainTextReq(text: STextView): Unit = {
+    val url: String = "https://www.baidu.com"
+    val future: Future[String] = get[String](url)
+    future.map {
+      result => runOnUiThread {
+        text.text = s"Response is: ${result.substring(0,500)}"
+      }
+    }
+  }
+
+  def jsonGetReq(text: STextView): Unit = {
+    val url: String = "http://jsonplaceholder.typicode.com/users"
+    val future: Future[JSONArray] = get[JSONArray](url)
+    future.map {
+      result: JSONArray => runOnUiThread {
+        text.text = s"Response is: ${result.join("\n")}"
+      }
+    }
+  }
+
+
   def reqTest(text: STextView): Unit = {
     toast("do volley request")
 
-    // text.text = "hello"
-
-    /*
-    val queue: RequestQueue = Volley.newRequestQueue(ctx)
-    val url: String = "https://www.baidu.com"
-    val request: StringRequest = new StringRequest(Request.Method.GET, url, new Listener[String] {
-      override def onResponse(response: String): Unit = {
-        text.text = s"Response is: ${response.substring(0, 500)}"
-      }
-    }, new ErrorListener {
-      override def onErrorResponse(error: VolleyError): Unit = {
-        text.text = s"Error. ${error.getMessage}"
-      }
-    })
-    queue.add(request)
-    */
-
-//    implicit val queue: RequestQueue = Volley.newRequestQueue(ctx)
     val url: String = "https://www.baidu.com"
     val future: Future[String] = get[String](url)
     future.map {

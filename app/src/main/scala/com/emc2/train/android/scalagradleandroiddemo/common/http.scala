@@ -8,12 +8,15 @@ import android.support.v4.util.LruCache
 import com.android.volley.Response.{ErrorListener, Listener}
 import com.android.volley._
 import com.android.volley.toolbox.ImageLoader.ImageCache
-import com.android.volley.toolbox.{ImageLoader, StringRequest, Volley}
+import com.android.volley.toolbox._
+import org.json.{JSONArray, JSONObject}
 
 import scala.concurrent.{Future, Promise}
 
 
-
+/**
+  * HTTP Operations
+  */
 trait SHttpOpts {
 
   def get[T: RequestBuilder](url: String, params: Map[String, String] = Map(), headers: Map[String, String] = Map())(implicit rq: RequestQueue): Future[T] = {
@@ -61,7 +64,6 @@ object RequestBuilder {
   }
 
   implicit object StringRequestBuilder extends RequestBuilder[String] {
-
     override def request(t: SReq): (Request[String], Future[String]) = {
       val p = Promise[String]
       val req: Request[String] = new StringRequest(t.method, t.url, (res: String) => success(p, res), (err: VolleyError) => failure(p, err))
@@ -69,6 +71,23 @@ object RequestBuilder {
     }
   }
 
+  implicit val jsonObjectRequestBuilder: RequestBuilder[JSONObject] = new RequestBuilder[JSONObject] {
+    override def request(t: SReq): (Request[JSONObject], Future[JSONObject]) = {
+      val p = Promise[JSONObject]
+      val param: JSONObject = null
+      val req = new JsonObjectRequest(t.method, t.url, param, (res: JSONObject) => success(p, res), (err: VolleyError) => failure(p, err))
+      (req, p.future)
+    }
+  }
+
+  implicit val jsonArrayRequestBuilder: RequestBuilder[JSONArray] = new RequestBuilder[JSONArray] {
+    override def request(t: SReq): (Request[JSONArray], Future[JSONArray]) = {
+      val p = Promise[JSONArray]
+      val param: JSONArray = null
+      val req = new JsonArrayRequest(t.method, t.url, param, (res: JSONArray) => success(p, res), (err: VolleyError) => failure(p, err))
+      (req, p.future)
+    }
+  }
 }
 
 
@@ -117,6 +136,14 @@ class SVolley(val context: Context,
 }
 
 
+/**
+  * Volley singleton. <br/>
+  *
+  * To obtain an RequestQueue
+  * <code>
+  *   SVolley(applicationContext).requestQueue
+  * </code>
+  */
 object SVolley {
 
   private var sVolley: SVolley = null
