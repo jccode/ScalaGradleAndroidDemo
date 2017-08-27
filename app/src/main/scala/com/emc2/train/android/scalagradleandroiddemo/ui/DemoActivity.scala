@@ -3,6 +3,7 @@ package com.emc2.train.android.scalagradleandroiddemo.ui
 import android.support.v7.app.AppCompatActivity
 import android.widget.ArrayAdapter
 import com.emc2.train.android.scalagradleandroiddemo.common.SHttpActivity
+import com.emc2.train.android.scalagradleandroiddemo.service.RandomNumberService
 import org.json.{JSONArray, JSONObject}
 import org.scaloid.common._
 
@@ -17,6 +18,7 @@ import scala.concurrent.Future
 class DemoActivity extends AppCompatActivity with SActivity with SHttpActivity {
 
   private val contents: Array[String] = Array("List activity", "Hello world", "...")
+  private val random = new LocalServiceConnection[RandomNumberService]()
 
   onCreate {
 
@@ -26,6 +28,7 @@ class DemoActivity extends AppCompatActivity with SActivity with SHttpActivity {
         SButton("Ajax plain text", plainTextReq(resultText))
         SButton("Ajax get json", jsonGetReq(resultText))
         SButton("Ajax post json", jsonPostReq(resultText))
+        SButton("Get random number", random(s => toast("number: " + s.getRandomNumber)))
       }.fw.here
 
       SListView().<<.fill.>>.adapter(new ArrayAdapter[String](ctx, android.R.layout.simple_list_item_1, contents)).onItemClick(

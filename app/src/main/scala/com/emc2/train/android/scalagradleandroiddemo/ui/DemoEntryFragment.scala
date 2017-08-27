@@ -20,7 +20,7 @@ class DemoEntryFragment extends SListFragment with OnItemClickListener {
   private val contentActions = Map[String, ()=>Unit](
     "Demo activity" -> { () => startActivity[DemoActivity] },
     "Msg 2 video" -> { () => navigateToFragment(Msg2VideoFragment()) },
-    "webview" -> { () => navigateToFragment(WebviewFragment()) },
+    "Webview" -> { () => navigateToFragment(WebviewFragment()) },
     "Generated list fragment" -> { () => navigateToFragment(PosterFragment.newInstance(1)) },
     "Toast" -> { () => toast("some message") }
   )
