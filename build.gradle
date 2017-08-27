@@ -16,7 +16,8 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'http://10.0.0.199:8081/repository/maven-public/' }
+//        maven { url 'http://10.0.0.199:8081/repository/maven-public/' }
+        maven { url 'http://58.61.152.91:10004/nexus/content/groups/public/' }
         jcenter()
         maven { url 'https://jitpack.io' }
     }

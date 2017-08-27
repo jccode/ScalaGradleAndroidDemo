@@ -9,7 +9,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.{ActionBarDrawerToggle, AppCompatActivity}
 import android.support.v7.widget.Toolbar
 import android.view.{Menu, MenuItem, View}
-import com.emc2.train.android.scalagradleandroiddemo.ui.{DemoActivity, DemoEntryFragment, IndexFragment}
+import com.emc2.train.android.scalagradleandroiddemo.ui.{DemoEntryFragment, IndexFragment}
 import org.scaloid.common._
 
 /**
@@ -39,6 +39,7 @@ class MainActivity2 extends AppCompatActivity with SActivity with OnNavigationIt
     if (savedInstanceState == null) {
       navigateToFragment(getTitle, new IndexFragment, false)
     }
+
   }
 
   override def onBackPressed(): Unit = {
@@ -86,4 +87,5 @@ class MainActivity2 extends AppCompatActivity with SActivity with OnNavigationIt
   }
 
   override def setTitle(title: CharSequence): Unit = getSupportActionBar.setTitle(title)
+
 }

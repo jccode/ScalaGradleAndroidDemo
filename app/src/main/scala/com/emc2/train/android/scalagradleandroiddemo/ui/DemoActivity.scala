@@ -2,8 +2,6 @@ package com.emc2.train.android.scalagradleandroiddemo.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.widget.ArrayAdapter
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.Volley
 import com.emc2.train.android.scalagradleandroiddemo.common.SHttpActivity
 import org.json.{JSONArray, JSONObject}
 import org.scaloid.common._
@@ -33,7 +31,8 @@ class DemoActivity extends AppCompatActivity with SActivity with SHttpActivity {
       SListView().<<.fill.>>.adapter(new ArrayAdapter[String](ctx, android.R.layout.simple_list_item_1, contents)).onItemClick(
         (_: android.widget.AdapterView[_], _: android.view.View, p3: Int, _: Long) => toast(contents(p3))
       )
-      val resultText = STextView().wrap
+
+      val resultText = STextView()
     }
 
   }
@@ -49,7 +48,7 @@ class DemoActivity extends AppCompatActivity with SActivity with SHttpActivity {
   }
 
   def jsonGetReq(text: STextView): Unit = {
-    val url: String = "http://10.0.0.66:3000/posts/"
+    val url: String = "http://jsonplaceholder.typicode.com/posts/"
     val future: Future[JSONArray] = get[JSONArray](url)
     future.map {
       result: JSONArray => runOnUiThread {

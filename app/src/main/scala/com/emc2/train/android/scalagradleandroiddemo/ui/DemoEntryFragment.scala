@@ -5,10 +5,10 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.{AdapterView, ArrayAdapter, Toast}
+import android.widget.{AdapterView, ArrayAdapter}
 import com.emc2.train.android.scalagradleandroiddemo.R
-import org.scaloid.support.v4.SListFragment
 import org.scaloid.common._
+import org.scaloid.support.v4.SListFragment
 
 /**
   * Demo entry fragment
@@ -19,6 +19,8 @@ class DemoEntryFragment extends SListFragment with OnItemClickListener {
 
   private val contentActions = Map[String, ()=>Unit](
     "Demo activity" -> { () => startActivity[DemoActivity] },
+    "Msg 2 video" -> { () => navigateToFragment(Msg2VideoFragment()) },
+    "webview" -> { () => navigateToFragment(WebviewFragment()) },
     "Generated list fragment" -> { () => navigateToFragment(PosterFragment.newInstance(1)) },
     "Toast" -> { () => toast("some message") }
   )
